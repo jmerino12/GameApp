@@ -6,8 +6,9 @@ import com.example.infraestructura.juego.persistencia.dao.DaoJuego
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioLocalDeJuegos
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class RepositorioDeJuegosRoom constructor(private val daoJuego: DaoJuego) :
+class RepositorioDeJuegosRoom @Inject constructor(private val daoJuego: DaoJuego) :
     RepositorioLocalDeJuegos {
 
     override suspend fun guardarJuego(juego: Juego) {

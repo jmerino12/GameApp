@@ -5,8 +5,9 @@ import com.example.dominio.juego.repositorios.RepositorioDeJuegos
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioLocalDeJuegos
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioRemotoDeJuegos
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ProxyDeJuego constructor(
+class ProxyDeJuego @Inject constructor(
     private val repositorioLocalDeJuegos: RepositorioLocalDeJuegos,
     private val repositorioRemotoDeJuegos: RepositorioRemotoDeJuegos
 ): RepositorioDeJuegos {
@@ -16,6 +17,6 @@ class ProxyDeJuego constructor(
     }
 
     override suspend fun obtenerJuego(identificador: Int): Flow<Juego?> {
-        TODO("Not yet implemented")
+        return repositorioRemotoDeJuegos.obtenerJuego(identificador)
     }
 }

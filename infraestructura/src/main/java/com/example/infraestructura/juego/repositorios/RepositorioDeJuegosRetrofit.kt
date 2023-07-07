@@ -7,8 +7,9 @@ import com.example.infraestructura.juego.repositorios.contratos.RepositorioRemot
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class RepositorioDeJuegosRetrofit constructor(private val servicioDeJuego: ServicioDeJuego) :
+class RepositorioDeJuegosRetrofit @Inject constructor(private val servicioDeJuego: ServicioDeJuego) :
     RepositorioRemotoDeJuegos {
 
     override suspend fun obtenerJuegos(): Flow<List<Juego>> {
@@ -22,6 +23,10 @@ class RepositorioDeJuegosRetrofit constructor(private val servicioDeJuego: Servi
     }
 
     override suspend fun obtenerJuego(identificador: Int): Flow<Juego?> {
-        TODO("Not yet implemented")
+        return flow { emit(servicioDeJuego.obtenerJuegoPorIdentificador(identificador)) }.map { juegoDto ->
+            TraductorDeJuegos.desdeDtoHaciaModelo(
+                juegoDto
+            )
+        }
     }
 }
