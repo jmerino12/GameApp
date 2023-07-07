@@ -1,4 +1,4 @@
-package com.example.infraestructura.compartido.baseDeDatos
+package com.example.infraestructura.compartido.persistencia
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

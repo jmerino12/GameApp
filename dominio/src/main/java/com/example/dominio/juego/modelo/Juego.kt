@@ -13,10 +13,10 @@ data class Juego(
     val fechaDeLanzamiento: String,
 ) {
     init {
-        validateFields()
+        validarCampos()
     }
 
-    private fun validateFields() {
+    private fun validarCampos() {
         if (titulo.isEmpty()) throw ExcepcionDeParametroVacio(parametro = "titulo")
         if (genero.isEmpty()) throw ExcepcionDeParametroVacio(parametro = "genero")
         if (descripcion.isEmpty()) throw ExcepcionDeParametroVacio(parametro = "descripcion")

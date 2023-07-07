@@ -1,6 +1,7 @@
 package com.example.infraestructura.juego.anticorrupcion
 
 import com.example.dominio.juego.modelo.Juego
+import com.example.infraestructura.juego.clienteHttp.dto.JuegoDto
 import com.example.infraestructura.juego.persistencia.entidad.JuegoEntidad
 
 
@@ -31,6 +32,19 @@ class TraductorDeJuegos {
                 plataforma = juego.plataforma,
                 editor = juego.editor,
                 fechaDeLanzamiento = juego.fechaDeLanzamiento
+            )
+        }
+
+        fun desdeDtoHaciaModelo(juegoDto: JuegoDto): Juego {
+            return Juego(
+                identificador = juegoDto.identificador,
+                titulo = juegoDto.titulo,
+                genero = juegoDto.genero,
+                descripcion = juegoDto.descripcionCorta,
+                miniatura = juegoDto.miniatura,
+                plataforma = juegoDto.plataforma,
+                editor = juegoDto.editor,
+                fechaDeLanzamiento = juegoDto.fechaDeLanzamiento
             )
         }
     }
