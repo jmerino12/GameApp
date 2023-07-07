@@ -10,8 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.gameapp.ui.theme.GameAppTheme
+import androidx.navigation.compose.rememberNavController
+import com.example.gameapp.ui.tema.GameAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    JuegoApp()
                 }
             }
         }
@@ -30,17 +33,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun JuegoApp(modifier: Modifier = Modifier) {
+    val controladorDeNavegacion = rememberNavController()
+    GameAppHostDeNavegacion(
+        modifier = modifier,
+        controladorDeNavegacion = controladorDeNavegacion
     )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GameAppTheme {
-        Greeting("Android")
-    }
 }
