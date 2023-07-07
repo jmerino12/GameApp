@@ -9,6 +9,7 @@ class PruebaDeJuego {
     fun crearJuegoConDatoValidos_creacionDeInstanciaDeJuego() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -20,6 +21,7 @@ class PruebaDeJuego {
 
         // ACT
         val juego = Juego(
+            identificador = identificadorDelJuego,
             titulo = tituloDelJuego,
             genero = generoDelJuego,
             descripcion = descripcionDelJuego,
@@ -37,6 +39,7 @@ class PruebaDeJuego {
     fun crearJuegoConElTituloVacio_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = ""
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -49,6 +52,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -64,6 +68,7 @@ class PruebaDeJuego {
     fun crearJuegoConElGeneroVacio_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = ""
         val descripcionDelJuego =
@@ -76,6 +81,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -92,6 +98,7 @@ class PruebaDeJuego {
     fun crearJuegoConLaDescripcionVacio_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego = ""
@@ -104,6 +111,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -119,6 +127,7 @@ class PruebaDeJuego {
     fun crearJuegoConLaMiniaturaVacia_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -132,6 +141,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -147,6 +157,7 @@ class PruebaDeJuego {
     fun crearJuegoConLaPlataformaVacia_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -160,6 +171,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -175,6 +187,7 @@ class PruebaDeJuego {
     fun crearJuegoConElEditorVacia_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -188,6 +201,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,
@@ -203,6 +217,7 @@ class PruebaDeJuego {
     fun crearJuegoConLaFechaDeLanzamientoVacia_lanzarExcepcionDeParametroVacio() {
 
         //ARRANGE
+        val identificadorDelJuego = 434
         val tituloDelJuego = "Call of duty"
         val generoDelJuego = "Disparos"
         val descripcionDelJuego =
@@ -216,6 +231,7 @@ class PruebaDeJuego {
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
+                identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
                 descripcion = descripcionDelJuego,

@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "GameApp"
 include ':app'
 include ':dominio'
+include ':infraestructura'

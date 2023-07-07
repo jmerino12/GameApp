@@ -3,6 +3,7 @@ package com.example.dominio.juego.modelo
 import com.example.dominio.juego.excepciones.ExcepcionDeParametroVacio
 
 data class Juego(
+    val identificador: Int,
     val titulo: String,
     val genero: String,
     val descripcion: String,

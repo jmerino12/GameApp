@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepositorioDeJuegos {
     suspend fun obtenerJuegos(): Flow<List<Juego>>
-    suspend fun obtenerJuego(): Flow<Juego>
+    suspend fun obtenerJuego(identificador: Int): Flow<Juego?>
 }

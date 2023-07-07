@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    namespace 'com.example.dominio'
+    namespace 'com.example.infraestructura'
     compileSdk 33
 
     defaultConfig {
@@ -30,7 +31,23 @@ android {
     }
 }
 
-dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
+kapt {
+    correctErrorTypes = true
 }
+
+dependencies {
+    implementation project(":dominio")
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2"
+
+    //Room
+    implementation "androidx.room:room-ktx:2.5.2"
+    implementation "androidx.room:room-runtime:2.5.2"
+    testImplementation "androidx.room:room-testing:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+
+}
+

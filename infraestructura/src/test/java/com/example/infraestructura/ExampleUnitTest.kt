@@ -1,4 +1,4 @@
-package com.example.dominio
+package com.example.infraestructura
 
 import org.junit.Test
 
