@@ -1,4 +1,4 @@
-package com.example.gameapp.ui.pantallas
+package com.example.gameapp.ui.pantallas.inicio
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -39,10 +39,10 @@ class PantallaInicialViewModel @Inject constructor(
                 _estadoDeUi.value = it
             }
         }
-        viewModelScope.launch { obtenerJuego() }
+        viewModelScope.launch { obtenerJuegos() }
     }
 
-    private suspend fun obtenerJuego() = withContext(Dispatchers.IO) {
+    private suspend fun obtenerJuegos() = withContext(Dispatchers.IO) {
         cargando.value = true
         try {
             repositorioDeJuegos.obtenerJuegos().collect { juegos ->

@@ -1,6 +1,7 @@
 package com.example.infraestructura.juego.repositorios
 
 import com.example.dominio.juego.modelo.Juego
+import com.example.dominio.juego.modelo.JuegoDetalle
 import com.example.infraestructura.compartido.clienteHttp.ServicioDeJuego
 import com.example.infraestructura.juego.anticorrupcion.TraductorDeJuegos
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioRemotoDeJuegos
@@ -22,9 +23,9 @@ class RepositorioDeJuegosRetrofit @Inject constructor(private val servicioDeJueg
         }
     }
 
-    override suspend fun obtenerJuego(identificador: Int): Flow<Juego?> {
+    override suspend fun obtenerJuego(identificador: Int): Flow<JuegoDetalle?> {
         return flow { emit(servicioDeJuego.obtenerJuegoPorIdentificador(identificador)) }.map { juegoDto ->
-            TraductorDeJuegos.desdeDtoHaciaModelo(
+            TraductorDeJuegos.desdeDtoDetalleHaciaModelo(
                 juegoDto
             )
         }

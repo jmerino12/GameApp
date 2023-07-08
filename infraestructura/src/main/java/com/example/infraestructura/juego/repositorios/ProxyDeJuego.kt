@@ -1,6 +1,7 @@
 package com.example.infraestructura.juego.repositorios
 
 import com.example.dominio.juego.modelo.Juego
+import com.example.dominio.juego.modelo.JuegoBase
 import com.example.dominio.juego.repositorios.RepositorioDeJuegos
 import com.example.infraestructura.compartido.VerificadorDeInternet
 import com.example.infraestructura.compartido.clienteHttp.excepciones.ExcepcionDeInternet
@@ -29,7 +30,7 @@ class ProxyDeJuego @Inject constructor(
         }
     }
 
-    suspend fun obtenerJuego(identificador: Int): Flow<Juego?> {
+    suspend fun obtenerJuego(identificador: Int): Flow<JuegoBase?> {
         return if (verificadorDeInternet.hayConexionInternet()) {
             repositorioRemotoDeJuegos.obtenerJuego(identificador)
         } else {

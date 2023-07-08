@@ -1,5 +1,6 @@
-package com.example.gameapp.ui.pantallas
+package com.example.gameapp.ui.pantallas.inicio
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -18,13 +19,15 @@ import com.example.gameapp.ui.compatido.CargandoContenido
 @Composable
 fun PantallaDeInicio(
     modifier: Modifier = Modifier,
-    estadoDeUi: PantallaDeInicioEstadosDeUi
+    estadoDeUi: PantallaDeInicioEstadosDeUi,
+    juegoClick: (Int) -> Unit,
 ) {
     Scaffold { paddingValues ->
         ContenidoDePantallaDeInicio(
             modifier = modifier.padding(paddingValues),
             estadoDeUi.cargando,
-            estadoDeUi.exito
+            estadoDeUi.exito,
+            juegoClick
         )
     }
 }
@@ -34,18 +37,19 @@ fun ContenidoDePantallaDeInicio(
     modifier: Modifier,
     cargando: Boolean,
     juegos: List<Juego>,
+    juegoClick: (Int) -> Unit,
 ) {
     CargandoContenido(
         cargando = cargando,
         vacio = juegos.isEmpty() && !cargando,
         contenidoVacio = { Text(text = "No hay contenido") }) {
         LazyColumn {
-            items(juegos) { juego ->
-                Row {
-                   AsyncImage(model = juego.miniatura, contentDescription = juego.titulo )
+            items(juegos) {
+                Row(modifier = Modifier.clickable { juegoClick(it.identificador) }) {
+                    AsyncImage(model = it.miniatura, contentDescription = it.titulo)
                     Column {
-                        Text(text = juego.titulo)
-                        Text(text = juego.descripcion)
+                        Text(text = it.titulo)
+                        Text(text = it.descripcionCorta)
                     }
                 }
             }

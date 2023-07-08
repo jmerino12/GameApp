@@ -20,11 +20,11 @@ class PruebaDeJuego {
         val fechaDeLanzamientoDelJuego = "2020-03-10"
 
         // ACT
-        val juego = Juego(
+        val juego = JuegoBase(
             identificador = identificadorDelJuego,
             titulo = tituloDelJuego,
             genero = generoDelJuego,
-            descripcion = descripcionDelJuego,
+            descripcionCorta = descripcionDelJuego,
             miniatura = miniaturaDelJuego,
             plataforma = plataformaDelJuego,
             editor = editorDelJuego,
@@ -51,11 +51,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -80,11 +80,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -109,11 +109,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -138,11 +138,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -167,11 +167,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -196,11 +196,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
@@ -225,11 +225,11 @@ class PruebaDeJuego {
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            Juego(
+            JuegoBase(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
-                descripcion = descripcionDelJuego,
+                descripcionCorta = descripcionDelJuego,
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
