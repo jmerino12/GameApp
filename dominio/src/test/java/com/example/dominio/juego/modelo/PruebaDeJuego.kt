@@ -108,7 +108,6 @@ class PruebaDeJuego {
         val fechaDeLanzamientoDelJuego = "2020-03-10"
 
         // ACT - ASSERT
-        // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
                 identificador = identificadorDelJuego,
@@ -137,7 +136,6 @@ class PruebaDeJuego {
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
 
-        // ACT - ASSERT
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
@@ -168,7 +166,6 @@ class PruebaDeJuego {
         val fechaDeLanzamientoDelJuego = "2020-03-10"
 
         // ACT - ASSERT
-        // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
                 identificador = identificadorDelJuego,
@@ -198,7 +195,6 @@ class PruebaDeJuego {
         val fechaDeLanzamientoDelJuego = "2020-03-10"
 
         // ACT - ASSERT
-        // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(
                 identificador = identificadorDelJuego,
@@ -227,7 +223,6 @@ class PruebaDeJuego {
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = ""
 
-        // ACT - ASSERT
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
             Juego(

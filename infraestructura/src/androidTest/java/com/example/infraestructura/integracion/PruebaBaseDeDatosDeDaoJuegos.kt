@@ -6,7 +6,8 @@ import com.example.infraestructura.compartido.ReglaDeCorrutinas
 import com.example.infraestructura.juego.persistencia.dao.DaoJuego
 import com.example.infraestructura.juego.persistencia.entidad.JuegoEntidad
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -18,9 +19,11 @@ import org.junit.runner.RunWith
 class PruebaBaseDeDatosDeDaoJuegos : DaoJuegosTestBase() {
 
     @get:Rule
-    private val testDispatcher = ReglaDeCorrutinas()
+    private val despachador = ReglaDeCorrutinas()
 
     private lateinit var daoJuego: DaoJuego
+
+    private val scope = TestScope(despachador.testDispatcher)
 
 
     @Before
@@ -36,7 +39,7 @@ class PruebaBaseDeDatosDeDaoJuegos : DaoJuegosTestBase() {
 
     @Test
     fun obtenerJuegos_guardarUnJuegoPosteriomenteDevolverTodosLosJuegosDesdeLaBaseDeDatos_exito() =
-        runBlocking {
+        scope.runTest {
             //ARRANGE
             val entidadDeJuego = JuegoEntidad(
                 12,
@@ -54,28 +57,6 @@ class PruebaBaseDeDatosDeDaoJuegos : DaoJuegosTestBase() {
             val result = daoJuego.obtenerJuegos().first()
 
             Assert.assertEquals(1, result.size)
-        }
-
-    @Test
-    fun obtenerJuegoPorIdentificador_guardarUnJuegoPosteriomenteDevolverElJuegoDesdeLaBaseDeDatos_exito() =
-        runBlocking {
-            //ARRANGE
-            val entidadDeJuego = JuegoEntidad(
-                12,
-                "Call of duty",
-                "Disparos",
-                "Un Battle Royale independiente gratuito y modos accesibles a través de Call of Duty: Modern Warfare.",
-                "/thumbnail.jpg",
-                "XBOX",
-                "Activision",
-                "2020-03-10"
-            )
-
-            daoJuego.insertarJuego(entidadDeJuego)
-            //ACT
-            val result = daoJuego.obtenerJuegoPorIdentificador(entidadDeJuego.identificador).first()
-
-            Assert.assertEquals(entidadDeJuego, result)
         }
 
 

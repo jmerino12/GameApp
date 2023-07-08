@@ -1,6 +1,9 @@
 package com.example.infraestructura.compartido.inyeccionDeDependencias
 
+import android.app.Application
+import android.content.Context
 import com.example.dominio.juego.repositorios.RepositorioDeJuegos
+import com.example.infraestructura.compartido.VerificadorDeInternet
 import com.example.infraestructura.compartido.clienteHttp.ServicioDeJuego
 import com.example.infraestructura.juego.persistencia.dao.DaoJuego
 import com.example.infraestructura.juego.repositorios.ProxyDeJuego
@@ -11,6 +14,7 @@ import com.example.infraestructura.juego.repositorios.contratos.RepositorioRemot
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -20,8 +24,9 @@ class ModuloDeDatos {
     fun proveedorDeRepositorios(
         repositorioLocalDeJuegos: RepositorioLocalDeJuegos,
         repositorioRemotoDeJuegos: RepositorioRemotoDeJuegos,
+        verificadorDeInternet: VerificadorDeInternet
     ): RepositorioDeJuegos =
-        ProxyDeJuego(repositorioLocalDeJuegos, repositorioRemotoDeJuegos)
+        ProxyDeJuego(repositorioLocalDeJuegos, repositorioRemotoDeJuegos, verificadorDeInternet)
 
     @Provides
     fun proveedorDeFuenteLocal(daoJuego: DaoJuego): RepositorioLocalDeJuegos =
@@ -32,4 +37,8 @@ class ModuloDeDatos {
         servicioDeJuego: ServicioDeJuego
     ): RepositorioRemotoDeJuegos =
         RepositorioDeJuegosRetrofit(servicioDeJuego)
+
+    @Provides
+    fun proveedorDeVerificadorDeInternet(@ApplicationContext appContext: Context): VerificadorDeInternet =
+        VerificadorDeInternet(appContext)
 }

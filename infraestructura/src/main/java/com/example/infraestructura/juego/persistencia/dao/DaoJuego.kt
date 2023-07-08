@@ -14,9 +14,6 @@ interface DaoJuego {
     @Query("SELECT * FROM JuegoEntidad")
      fun obtenerJuegos(): Flow<List<JuegoEntidad>>
 
-    @Query("SELECT * FROM JuegoEntidad WHERE identificador = :id")
-     fun obtenerJuegoPorIdentificador(id: Int): Flow<JuegoEntidad?>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertarJuego(juego: JuegoEntidad)
 }

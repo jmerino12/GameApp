@@ -19,15 +19,4 @@ class RepositorioDeJuegosRoom @Inject constructor(private val daoJuego: DaoJuego
         return daoJuego.obtenerJuegos()
             .map { juegos -> juegos.map { juego -> TraductorDeJuegos.desdeEntidadHaciaModelo(juego) } }
     }
-
-    override suspend fun obtenerJuego(identificador: Int): Flow<Juego?> {
-        return daoJuego.obtenerJuegoPorIdentificador(identificador)
-            .map { juego ->
-                if (juego != null) {
-                    TraductorDeJuegos.desdeEntidadHaciaModelo(juego)
-                } else {
-                    null
-                }
-            }
-    }
 }
