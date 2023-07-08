@@ -1,6 +1,9 @@
 package com.example.infraestructura.juego.repositorios
 
 import com.example.dominio.juego.modelo.Juego
+import com.example.dominio.juego.modelo.JuegoBase
+import com.example.dominio.juego.modelo.JuegoDetalle
+import com.example.dominio.juego.modelo.RequisitosMinimosDelSistema
 import com.example.infraestructura.compartido.VerificadorDeInternet
 import com.example.infraestructura.compartido.clienteHttp.excepciones.ExcepcionDeInternet
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioLocalDeJuegos
@@ -66,19 +69,23 @@ class ProxyDeJuegoTest {
             )
         }
 
-    private val flowJuegoDesdeRemoto: Flow<Juego> =
+    private val flowJuegoDesdeRemoto: Flow<JuegoDetalle> =
         flow {
             emit(
 
-                Juego(
+                JuegoDetalle(
                     11,
                     "Halo Infinite",
                     "Disparos",
                     "For the first time ever, a free-to-play Halo experience is available in the form of Halo Infinite’s multiplayer.",
+                    "",
                     "/thumnail.jpg",
                     "XBOX",
                     "Xbox Game Studios",
-                    "2021-11-15"
+                    "2021-11-15",
+                    RequisitosMinimosDelSistema("", "", "", "", ""),
+                    listOf()
+
                 )
 
             )

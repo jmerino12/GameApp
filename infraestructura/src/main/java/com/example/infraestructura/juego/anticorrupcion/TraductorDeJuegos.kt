@@ -1,7 +1,14 @@
 package com.example.infraestructura.juego.anticorrupcion
 
+import com.example.dominio.juego.modelo.CapturaDePantalla
 import com.example.dominio.juego.modelo.Juego
+import com.example.dominio.juego.modelo.JuegoBase
+import com.example.dominio.juego.modelo.JuegoDetalle
+import com.example.dominio.juego.modelo.RequisitosMinimosDelSistema
+import com.example.infraestructura.juego.clienteHttp.dto.CapturaDePantallaDto
+import com.example.infraestructura.juego.clienteHttp.dto.JuegoDetalleDto
 import com.example.infraestructura.juego.clienteHttp.dto.JuegoDto
+import com.example.infraestructura.juego.clienteHttp.dto.RequisitosMinimosDelSistemaDto
 import com.example.infraestructura.juego.persistencia.entidad.JuegoEntidad
 
 
@@ -14,7 +21,7 @@ class TraductorDeJuegos {
                 identificador = juegoEntidad.identificador,
                 titulo = juegoEntidad.titulo,
                 genero = juegoEntidad.genero,
-                descripcion = juegoEntidad.descripcion,
+                descripcionCorta = juegoEntidad.descripcion,
                 miniatura = juegoEntidad.miniatura,
                 plataforma = juegoEntidad.plataforma,
                 editor = juegoEntidad.editor,
@@ -22,12 +29,12 @@ class TraductorDeJuegos {
             )
         }
 
-        fun desdeModeloHaciaEntidad(juego: Juego): JuegoEntidad {
+        fun desdeModeloHaciaEntidad(juego: JuegoBase): JuegoEntidad {
             return JuegoEntidad(
                 identificador = juego.identificador,
                 titulo = juego.titulo,
                 genero = juego.genero,
-                descripcion = juego.descripcion,
+                descripcion = juego.descripcionCorta,
                 miniatura = juego.miniatura,
                 plataforma = juego.plataforma,
                 editor = juego.editor,
@@ -40,11 +47,52 @@ class TraductorDeJuegos {
                 identificador = juegoDto.identificador,
                 titulo = juegoDto.titulo,
                 genero = juegoDto.genero,
-                descripcion = juegoDto.descripcionCorta,
+                descripcionCorta = juegoDto.descripcionCorta,
                 miniatura = juegoDto.miniatura,
                 plataforma = juegoDto.plataforma,
                 editor = juegoDto.editor,
                 fechaDeLanzamiento = juegoDto.fechaDeLanzamiento
+            )
+        }
+
+        fun desdeDtoDetalleHaciaModelo(juegoDetalleDto: JuegoDetalleDto): JuegoDetalle {
+            return JuegoDetalle(
+                identificador = juegoDetalleDto.identificador,
+                titulo = juegoDetalleDto.titulo,
+                genero = juegoDetalleDto.genero,
+                descripcionCorta = juegoDetalleDto.descripcionCorta,
+                descripcion = juegoDetalleDto.descripcion,
+                miniatura = juegoDetalleDto.miniatura,
+                plataforma = juegoDetalleDto.plataforma,
+                editor = juegoDetalleDto.editor,
+
+                fechaDeLanzamiento = juegoDetalleDto.fechaDeLanzamiento,
+                requisitosMinimosDelSistema = desdeDtoRequisitosMinimoDelSistemaHaciaModelo(
+                    juegoDetalleDto.requisitosMinimosDelSistemaDto
+                ),
+                capturaDePantalla = juegoDetalleDto.capturasDePantalla.map {
+                    desdeDtoCapturasDePantallaHaciaModelo(
+                        it
+                    )
+                },
+                urlJuego = juegoDetalleDto.urlJuego
+            )
+        }
+
+        fun desdeDtoRequisitosMinimoDelSistemaHaciaModelo(requisitos: RequisitosMinimosDelSistemaDto): RequisitosMinimosDelSistema {
+            return RequisitosMinimosDelSistema(
+                sistemaOperativo = requisitos.sistemaOperativo,
+                procesador = requisitos.procesador,
+                memoria = requisitos.memoria,
+                grafica = requisitos.grafica,
+                almacenamiento = requisitos.almacenamiento
+            )
+        }
+
+        fun desdeDtoCapturasDePantallaHaciaModelo(captura: CapturaDePantallaDto): CapturaDePantalla {
+            return CapturaDePantalla(
+                identificador = captura.identificador,
+                imagen = captura.imagen
             )
         }
     }

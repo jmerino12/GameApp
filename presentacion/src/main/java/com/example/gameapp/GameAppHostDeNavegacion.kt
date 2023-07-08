@@ -6,11 +6,15 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.gameapp.ui.pantallas.PantallaDeInicio
-import com.example.gameapp.ui.pantallas.PantallaInicialViewModel
+import androidx.navigation.navArgument
+import com.example.gameapp.ui.pantallas.detalle.PantallaDetalle
+import com.example.gameapp.ui.pantallas.detalle.PantallaDetalleViewModel
+import com.example.gameapp.ui.pantallas.inicio.PantallaDeInicio
+import com.example.gameapp.ui.pantallas.inicio.PantallaInicialViewModel
 
 
 @Composable
@@ -28,8 +32,21 @@ fun GameAppHostDeNavegacion(
             val estadoDeLaPantalla by viewModel.estadoDeUi.collectAsStateWithLifecycle()
             PantallaDeInicio(
                 modifier = modifier,
-                estadoDeUi = estadoDeLaPantalla
+                estadoDeUi = estadoDeLaPantalla,
+                juegoClick = {
+                    controladorDeNavegacion.navegarAlDetalle(it)
+                }
             )
+        }
+        composable("detalle/?juego={juego}", arguments = listOf(
+            navArgument("juego") { type = NavType.IntType }
+        )) {
+            val viewModel = hiltViewModel<PantallaDetalleViewModel>()
+            val estadoDeLaPantalla by viewModel.estadoDeUi.collectAsStateWithLifecycle()
+            PantallaDetalle(estadoDeUi = estadoDeLaPantalla)
         }
     }
 }
+
+fun NavHostController.navegarAlDetalle(identificador: Int) =
+    this.navigate("detalle/?juego=$identificador")
