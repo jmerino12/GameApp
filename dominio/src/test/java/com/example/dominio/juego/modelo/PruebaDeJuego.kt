@@ -18,9 +18,10 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT
-        val juego = JuegoBase(
+        val juego = Juego(
             identificador = identificadorDelJuego,
             titulo = tituloDelJuego,
             genero = generoDelJuego,
@@ -28,7 +29,8 @@ class PruebaDeJuego {
             miniatura = miniaturaDelJuego,
             plataforma = plataformaDelJuego,
             editor = editorDelJuego,
-            fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+            fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+            favorito = esJuegoFavorito
         )
 
         //ASSERT
@@ -48,10 +50,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -59,7 +62,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito,
             )
         }
     }
@@ -77,10 +81,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -88,7 +93,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
 
@@ -106,10 +112,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -117,7 +124,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
     }
@@ -135,10 +143,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -146,7 +155,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
     }
@@ -164,10 +174,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = ""
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -175,7 +186,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
     }
@@ -193,10 +205,11 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = ""
         val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val esJuegoFavorito = false
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -204,7 +217,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
     }
@@ -222,10 +236,12 @@ class PruebaDeJuego {
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
         val fechaDeLanzamientoDelJuego = ""
+        val esJuegoFavorito = false
+
 
         // ACT - ASSERT
         Assert.assertThrows(ExcepcionDeParametroVacio::class.java) {
-            JuegoBase(
+            Juego(
                 identificador = identificadorDelJuego,
                 titulo = tituloDelJuego,
                 genero = generoDelJuego,
@@ -233,7 +249,8 @@ class PruebaDeJuego {
                 miniatura = miniaturaDelJuego,
                 plataforma = plataformaDelJuego,
                 editor = editorDelJuego,
-                fechaDeLanzamiento = fechaDeLanzamientoDelJuego
+                fechaDeLanzamiento = fechaDeLanzamientoDelJuego,
+                favorito = esJuegoFavorito
             )
         }
     }

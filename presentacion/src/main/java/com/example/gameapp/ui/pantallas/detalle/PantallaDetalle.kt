@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,12 +49,20 @@ import com.example.gameapp.ui.compatido.ExpandableText
 fun PantallaDetalle(
     modifier: Modifier = Modifier,
     estadoDeUi: PantallaDetalleEstadosDeUi,
+    peliculaFavorita: () -> Unit,
+    eliminarDeFavorita: () -> Unit,
+    error: Boolean,
+    mensajeDeError: String
 ) {
     Scaffold { paddingValues ->
         ContenidoDePantallaDetalle(
             modifier = modifier.padding(paddingValues),
             estadoDeUi.cargando,
-            estadoDeUi.exito
+            estadoDeUi.exito,
+            peliculaFavorita,
+            eliminarDeFavorita,
+            error,
+            mensajeDeError
         )
     }
 }
@@ -62,55 +72,78 @@ fun ContenidoDePantallaDetalle(
     modifier: Modifier,
     cargando: Boolean,
     juego: JuegoDetalle?,
+    peliculaFavorita: () -> Unit,
+    eliminarDeFavorita: () -> Unit,
+    error: Boolean,
+    mensajeDeError: String
+
 ) {
     CargandoContenido(
         cargando = cargando,
-        vacio = juego == null && !cargando,
-        contenidoVacio = { Text(text = "No hay contenido") }) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            item {
-                EncabezadoDeJuego(juego = juego, backButton = {})
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = juego?.titulo ?: "",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        ),
-                        textAlign = TextAlign.Center
-                    )
-                }
+    ) {
+        if (error && mensajeDeError.isNotEmpty()) {
+            Text(text = mensajeDeError)
+        } else {
+            DetalleDelJuego(juego, peliculaFavorita, eliminarDeFavorita)
+        }
 
-                ExpandableText(text = juego?.descripcion)
-                val estilo = MaterialTheme.typography.labelSmall.toSpanStyle().copy(
-                    background = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    }
+}
+
+@Composable
+private fun DetalleDelJuego(
+    juego: JuegoDetalle?,
+    peliculaFavorita: () -> Unit,
+    eliminarDeFavorita: () -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        item {
+            EncabezadoDeJuego(
+                juego = juego,
+                backButton = {},
+                peliculaFavorita = peliculaFavorita,
+                eliminarDeFavorita = eliminarDeFavorita
+            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = juego?.titulo ?: "",
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    textAlign = TextAlign.Center
                 )
-                val urlDelJuego = buildAnnotatedString {
-                    withStyle(estilo) {
-                        append(juego?.urlJuego)
-                    }
-                }
-                ClickableText(text = urlDelJuego, onClick = {})
-                SeccionDelJuego(
-                    tituloDeLaSeccion = "Requisitos del computador"
-                ) {
-                    RequisitosDelSistema(juego = juego)
-                }
-
-                SeccionDelJuego(
-                    tituloDeLaSeccion = "Capturas"
-                ) {
-                    CarruselDeFotos(juego = juego)
-                }
             }
 
+            ExpandableText(text = juego?.descripcion)
+            val estilo = MaterialTheme.typography.labelSmall.toSpanStyle().copy(
+                background = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            )
+            val urlDelJuego = buildAnnotatedString {
+                withStyle(estilo) {
+                    append(juego?.urlJuego)
+                }
+            }
+            ClickableText(text = urlDelJuego, onClick = {})
+            SeccionDelJuego(
+                tituloDeLaSeccion = "Requisitos del computador"
+            ) {
+                RequisitosDelSistema(juego = juego)
+            }
+
+            SeccionDelJuego(
+                tituloDeLaSeccion = "Capturas"
+            ) {
+                CarruselDeFotos(juego = juego)
+            }
         }
+
     }
 }
 
@@ -118,7 +151,9 @@ fun ContenidoDePantallaDetalle(
 private fun EncabezadoDeJuego(
     modifier: Modifier = Modifier,
     juego: JuegoDetalle?,
-    backButton: () -> Unit
+    backButton: () -> Unit,
+    peliculaFavorita: () -> Unit,
+    eliminarDeFavorita: () -> Unit
 ) {
 
     Box(modifier = Modifier.wrapContentHeight(unbounded = true)) {
@@ -134,12 +169,22 @@ private fun EncabezadoDeJuego(
                 .height(262.dp)
 
         )
-        IconButton(onClick = backButton) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                tint = Color.White,
-                contentDescription = "Back"
-            )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            IconButton(onClick = backButton) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    tint = Color.White,
+                    contentDescription = "Back"
+                )
+            }
+
+            IconButton(onClick = if (juego!!.favorito) eliminarDeFavorita else peliculaFavorita) {
+                Icon(
+                    imageVector = if (juego!!.favorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    tint = Color.White,
+                    contentDescription = "Back"
+                )
+            }
         }
 
     }

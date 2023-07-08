@@ -25,7 +25,22 @@ class TraductorDeJuegos {
                 miniatura = juegoEntidad.miniatura,
                 plataforma = juegoEntidad.plataforma,
                 editor = juegoEntidad.editor,
-                fechaDeLanzamiento = juegoEntidad.fechaDeLanzamiento
+                fechaDeLanzamiento = juegoEntidad.fechaDeLanzamiento,
+                favorito = juegoEntidad.favorito
+            )
+        }
+
+        fun desdeJuegoDetalleAJuego(juegoDetalle: JuegoDetalle): Juego {
+            return Juego(
+                identificador = juegoDetalle.identificador,
+                titulo = juegoDetalle.titulo,
+                genero = juegoDetalle.genero,
+                descripcionCorta = juegoDetalle.descripcionCorta,
+                miniatura = juegoDetalle.miniatura,
+                plataforma = juegoDetalle.plataforma,
+                editor = juegoDetalle.editor,
+                fechaDeLanzamiento = juegoDetalle.fechaDeLanzamiento,
+                favorito = juegoDetalle.favorito
             )
         }
 
@@ -38,7 +53,8 @@ class TraductorDeJuegos {
                 miniatura = juego.miniatura,
                 plataforma = juego.plataforma,
                 editor = juego.editor,
-                fechaDeLanzamiento = juego.fechaDeLanzamiento
+                fechaDeLanzamiento = juego.fechaDeLanzamiento,
+                favorito = juego.favorito
             )
         }
 
@@ -51,7 +67,8 @@ class TraductorDeJuegos {
                 miniatura = juegoDto.miniatura,
                 plataforma = juegoDto.plataforma,
                 editor = juegoDto.editor,
-                fechaDeLanzamiento = juegoDto.fechaDeLanzamiento
+                fechaDeLanzamiento = juegoDto.fechaDeLanzamiento,
+                favorito = false
             )
         }
 
@@ -65,7 +82,6 @@ class TraductorDeJuegos {
                 miniatura = juegoDetalleDto.miniatura,
                 plataforma = juegoDetalleDto.plataforma,
                 editor = juegoDetalleDto.editor,
-
                 fechaDeLanzamiento = juegoDetalleDto.fechaDeLanzamiento,
                 requisitosMinimosDelSistema = desdeDtoRequisitosMinimoDelSistemaHaciaModelo(
                     juegoDetalleDto.requisitosMinimosDelSistemaDto
@@ -75,7 +91,8 @@ class TraductorDeJuegos {
                         it
                     )
                 },
-                urlJuego = juegoDetalleDto.urlJuego
+                urlJuego = juegoDetalleDto.urlJuego,
+                favorito = false
             )
         }
 

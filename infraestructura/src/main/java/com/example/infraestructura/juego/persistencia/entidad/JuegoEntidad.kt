@@ -13,4 +13,5 @@ data class JuegoEntidad(
     val plataforma: String,
     val editor: String,
     val fechaDeLanzamiento: String,
+    val favorito: Boolean
 )

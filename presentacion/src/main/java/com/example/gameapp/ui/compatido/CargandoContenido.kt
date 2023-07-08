@@ -12,10 +12,7 @@ import androidx.compose.ui.Modifier
 fun CargandoContenido(
     modifier: Modifier = Modifier,
     cargando: Boolean,
-    vacio: Boolean,
-    contenidoVacio: @Composable () -> Unit,
     contenido: @Composable () -> Unit
-
 ) {
     if (cargando) {
         Column(
@@ -25,8 +22,6 @@ fun CargandoContenido(
         ) {
             CircularProgressIndicator()
         }
-    } else if (vacio) {
-        contenidoVacio()
     } else {
         contenido()
     }
