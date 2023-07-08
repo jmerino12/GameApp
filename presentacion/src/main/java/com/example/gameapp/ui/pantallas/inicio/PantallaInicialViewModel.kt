@@ -21,7 +21,8 @@ class PantallaInicialViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val cargando = MutableStateFlow(PantallaDeInicioEstadosDeUi().cargando)
-    private val exito = MutableStateFlow(PantallaDeInicioEstadosDeUi().exito)
+    private val juegosDeApi = MutableStateFlow(PantallaDeInicioEstadosDeUi().juegoDeApi)
+    private val juegosFavoritos = MutableStateFlow(PantallaDeInicioEstadosDeUi().juegosFavoritos)
     private val error = MutableStateFlow(PantallaDeInicioEstadosDeUi().error)
 
     private val _estadoDeUi = MutableStateFlow(PantallaDeInicioEstadosDeUi())
@@ -30,9 +31,9 @@ class PantallaInicialViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             combine(
-                cargando, exito, error
-            ) { cargando, exito, error  ->
-                PantallaDeInicioEstadosDeUi(cargando, exito, error)
+                cargando, juegosDeApi, juegosFavoritos, error
+            ) { cargando, juegosDeApi, juegosFavoritos, error ->
+                PantallaDeInicioEstadosDeUi(cargando, juegosDeApi, juegosFavoritos, error)
             }.catch { throwable ->
                 throw throwable
             }.collect {
@@ -47,7 +48,11 @@ class PantallaInicialViewModel @Inject constructor(
         try {
             repositorioDeJuegos.obtenerJuegos().collect { juegos ->
                 cargando.value = false
-                exito.value = juegos
+                juegos.map {
+                    if (it.favorito) juegosFavoritos.value.add(it) else {
+                        juegosDeApi.value.add(it)
+                    }
+                }
             }
         } catch (e: Exception) {
             Log.e("obtenerJuegoError", e.localizedMessage)
@@ -58,6 +63,7 @@ class PantallaInicialViewModel @Inject constructor(
 
 data class PantallaDeInicioEstadosDeUi(
     var cargando: Boolean = true,
-    var exito: List<Juego> = listOf(),
+    var juegoDeApi: MutableList<Juego> = mutableListOf(),
+    var juegosFavoritos: MutableList<Juego> = mutableListOf(),
     var error: Boolean = false,
 )

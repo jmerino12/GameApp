@@ -46,7 +46,8 @@ class ProxyDeJuegoTest {
                         "/thumbnail.jpg",
                         "PC",
                         "Activision Blizzard",
-                        "2022-10-04"
+                        "2022-10-04",
+                        favorito = false
                     )
                 )
             )
@@ -63,7 +64,8 @@ class ProxyDeJuegoTest {
                         "/thumnail.jpg",
                         "XBOX",
                         "Xbox Game Studios",
-                        "2021-11-15"
+                        "2021-11-15",
+                        favorito = true
                     )
                 )
             )
@@ -74,18 +76,19 @@ class ProxyDeJuegoTest {
             emit(
 
                 JuegoDetalle(
-                    11,
-                    "Halo Infinite",
-                    "Disparos",
-                    "For the first time ever, a free-to-play Halo experience is available in the form of Halo Infinite’s multiplayer.",
-                    "",
-                    "/thumnail.jpg",
-                    "XBOX",
-                    "Xbox Game Studios",
-                    "2021-11-15",
-                    RequisitosMinimosDelSistema("", "", "", "", ""),
-                    listOf()
-
+                    identificador = 11,
+                    titulo = "Halo Infinite",
+                    genero = "Disparos",
+                    descripcionCorta = "For the first time ever, a free-to-play Halo experience is available in the form of Halo Infinite’s multiplayer.",
+                    descripcion = "",
+                    miniatura = "/thumnail.jpg",
+                    plataforma = "XBOX",
+                    editor = "Xbox Game Studios",
+                    fechaDeLanzamiento = "2021-11-15",
+                    requisitosMinimosDelSistema = RequisitosMinimosDelSistema("", "", "", "", ""),
+                    capturaDePantalla = listOf(),
+                    urlJuego = "",
+                    favorito = true
                 )
 
             )

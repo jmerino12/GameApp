@@ -26,8 +26,9 @@ fun PantallaDeInicio(
         ContenidoDePantallaDeInicio(
             modifier = modifier.padding(paddingValues),
             estadoDeUi.cargando,
-            estadoDeUi.exito,
-            juegoClick
+            estadoDeUi.juegoDeApi,
+            estadoDeUi.juegosFavoritos,
+            juegoClick,
         )
     }
 }
@@ -36,21 +37,51 @@ fun PantallaDeInicio(
 fun ContenidoDePantallaDeInicio(
     modifier: Modifier,
     cargando: Boolean,
-    juegos: List<Juego>,
+    juegosDeApi: List<Juego>,
+    juegosFavoritos: List<Juego>,
     juegoClick: (Int) -> Unit,
 ) {
     CargandoContenido(
-        cargando = cargando,
-        vacio = juegos.isEmpty() && !cargando,
-        contenidoVacio = { Text(text = "No hay contenido") }) {
-        LazyColumn {
-            items(juegos) {
-                Row(modifier = Modifier.clickable { juegoClick(it.identificador) }) {
-                    AsyncImage(model = it.miniatura, contentDescription = it.titulo)
-                    Column {
-                        Text(text = it.titulo)
-                        Text(text = it.descripcionCorta)
-                    }
+        cargando = cargando
+    ) {
+        Column {
+            if (juegosDeApi.isNotEmpty()) {
+                ListaDeJuegos(
+                    juegoClick = juegoClick,
+                    juegos = juegosDeApi,
+                    tipoDeContenido = "Juego desde Api"
+                )
+            }
+
+            if (juegosFavoritos.isNotEmpty()) {
+                ListaDeJuegos(
+                    juegoClick = juegoClick,
+                    juegos = juegosFavoritos,
+                    tipoDeContenido = "Juegos Favoritos"
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun ListaDeJuegos(
+    modifier: Modifier = Modifier,
+    tipoDeContenido: String,
+    juegoClick: (Int) -> Unit,
+    juegos: List<Juego>
+) {
+    LazyColumn {
+        item {
+            Text(text = tipoDeContenido)
+        }
+        items(juegos) {
+            Row(modifier = Modifier.clickable { juegoClick(it.identificador) }) {
+                AsyncImage(model = it.miniatura, contentDescription = it.titulo)
+                Column {
+                    Text(text = it.titulo)
+                    Text(text = it.descripcionCorta)
                 }
             }
         }

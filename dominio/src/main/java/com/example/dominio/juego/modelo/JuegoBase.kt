@@ -11,6 +11,7 @@ abstract class JuegoBase(
     val plataforma: String,
     val editor: String,
     val fechaDeLanzamiento: String,
+    var favorito: Boolean,
 ) {
     init {
         validarCampos()

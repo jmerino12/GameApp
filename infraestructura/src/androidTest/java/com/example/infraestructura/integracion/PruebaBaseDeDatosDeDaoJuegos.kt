@@ -49,14 +49,69 @@ class PruebaBaseDeDatosDeDaoJuegos : DaoJuegosTestBase() {
                 "/thumbnail.jpg",
                 "XBOX",
                 "Activision",
-                "2020-03-10"
+                "2020-03-10",
+                true
             )
 
             daoJuego.insertarJuego(entidadDeJuego)
+
             //ACT
             val result = daoJuego.obtenerJuegos().first()
 
+            //ASSERT
             Assert.assertEquals(1, result.size)
+        }
+
+    @Test
+    fun obtenerJuego_guardarUnJuegoPosteriomenteDevolverElJuegoGuardado_exito() =
+        scope.runTest {
+            //ARRANGE
+            val entidadDeJuego = JuegoEntidad(
+                12,
+                "Call of duty",
+                "Disparos",
+                "Un Battle Royale independiente gratuito y modos accesibles a través de Call of Duty: Modern Warfare.",
+                "/thumbnail.jpg",
+                "XBOX",
+                "Activision",
+                "2020-03-10",
+                true
+            )
+
+            daoJuego.insertarJuego(entidadDeJuego)
+
+            //ACT
+            val result = daoJuego.obtenerJuego(12).first()
+
+            //ASSERT
+            Assert.assertNotNull(result)
+            Assert.assertEquals(result!!.identificador, entidadDeJuego.identificador)
+        }
+
+    @Test
+    fun eliminarJuego_guardarUnJuegoPosteriomenteEliminarloElJuegoGuardado_exito() =
+        scope.runTest {
+            //ARRANGE
+            val entidadDeJuego = JuegoEntidad(
+                12,
+                "Call of duty",
+                "Disparos",
+                "Un Battle Royale independiente gratuito y modos accesibles a través de Call of Duty: Modern Warfare.",
+                "/thumbnail.jpg",
+                "XBOX",
+                "Activision",
+                "2020-03-10",
+                true
+            )
+
+            daoJuego.insertarJuego(entidadDeJuego)
+            daoJuego.eliminarJuego(entidadDeJuego)
+            //ACT
+            val juegoEliminado = daoJuego.obtenerJuego(12).first()
+
+            //ASSERT
+            Assert.assertNull(juegoEliminado)
+
         }
 
 

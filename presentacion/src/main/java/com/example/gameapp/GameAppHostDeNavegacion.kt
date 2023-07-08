@@ -43,7 +43,13 @@ fun GameAppHostDeNavegacion(
         )) {
             val viewModel = hiltViewModel<PantallaDetalleViewModel>()
             val estadoDeLaPantalla by viewModel.estadoDeUi.collectAsStateWithLifecycle()
-            PantallaDetalle(estadoDeUi = estadoDeLaPantalla)
+            PantallaDetalle(
+                estadoDeUi = estadoDeLaPantalla,
+                eliminarDeFavorita = { viewModel.eliminarDeFavorito() },
+                peliculaFavorita = { viewModel.marcarComoFavorito() },
+                mensajeDeError = estadoDeLaPantalla.mensajeDeError,
+                error = estadoDeLaPantalla.error
+            )
         }
     }
 }
