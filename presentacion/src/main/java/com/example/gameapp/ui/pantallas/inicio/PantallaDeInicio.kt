@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -70,9 +71,17 @@ fun ContenidoDePantallaDeInicio(
     CargandoContenido(
         cargando = cargando
     ) {
-        Column {
-            FiltroPor("Generos", generosDeJuego, valorDelFiltro, filtroDeGenero, resetearFiltro)
-            FiltroPor("Editores", editores, valorDelFiltro, filtroDeEditor, resetearFiltro)
+        LazyColumn {
+            item {
+                FiltroPor(
+                    "Generos",
+                    generosDeJuego,
+                    valorDelFiltro,
+                    filtroDeGenero,
+                    resetearFiltro
+                )
+            }
+            item { FiltroPor("Editores", editores, valorDelFiltro, filtroDeEditor, resetearFiltro) }
 
             if (juegosDeApi.isNotEmpty()) {
                 ListaDeJuegos(
@@ -81,7 +90,6 @@ fun ContenidoDePantallaDeInicio(
                     tipoDeContenido = "Juego desde Api"
                 )
             }
-
             if (juegosFavoritos.isNotEmpty()) {
                 ListaDeJuegos(
                     juegoClick = juegoClick,
@@ -89,7 +97,7 @@ fun ContenidoDePantallaDeInicio(
                     tipoDeContenido = "Juegos Favoritos"
                 )
             } else if (juegosDeApi.isEmpty() && juegosFavoritos.isEmpty()) {
-                Text(text = "No tenemos nada para mostrar")
+                item { Text(text = "No tenemos nada para mostrar") }
             }
 
         }
@@ -129,25 +137,23 @@ private fun FiltroPor(
     }
 }
 
-@Composable
-private fun ListaDeJuegos(
+private fun LazyListScope.ListaDeJuegos(
     modifier: Modifier = Modifier,
     tipoDeContenido: String,
     juegoClick: (Int) -> Unit,
     juegos: List<Juego>
 ) {
-    LazyColumn {
-        item {
-            Text(text = tipoDeContenido)
-        }
-        items(juegos) {
-            Row(modifier = Modifier.clickable { juegoClick(it.identificador) }) {
-                AsyncImage(model = it.miniatura, contentDescription = it.titulo)
-                Column {
-                    Text(text = it.titulo)
-                    Text(text = it.descripcionCorta)
-                }
+    item {
+        Text(text = tipoDeContenido)
+    }
+    items(juegos) {
+        Row(modifier = Modifier.clickable { juegoClick(it.identificador) }) {
+            AsyncImage(model = it.miniatura, contentDescription = it.titulo)
+            Column {
+                Text(text = it.titulo)
+                Text(text = it.descripcionCorta)
             }
         }
     }
+
 }

@@ -85,9 +85,11 @@ class PantallaInicialViewModel @Inject constructor(
                         juegosDeApi.value.add(it)
                     }
                 }
+
                 aplicarFiltroInicial()
                 generos.value = obtenerListaDeGeneros(juegos).toMutableList()
                 editores.value = obtenerListaDeEditores(juegos).toMutableList()
+                juegosFavoritos.value = juegosFavoritos.value.distinctBy { it.identificador }.toMutableList()
             }
         } catch (e: Exception) {
             Log.e("obtenerJuegoError", e.localizedMessage)
