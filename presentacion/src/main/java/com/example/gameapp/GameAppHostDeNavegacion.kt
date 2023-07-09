@@ -15,6 +15,7 @@ import com.example.gameapp.ui.pantallas.detalle.PantallaDetalle
 import com.example.gameapp.ui.pantallas.detalle.PantallaDetalleViewModel
 import com.example.gameapp.ui.pantallas.inicio.PantallaDeInicio
 import com.example.gameapp.ui.pantallas.inicio.PantallaInicialViewModel
+import com.example.gameapp.ui.pantallas.inicio.TasksFilterType
 
 
 @Composable
@@ -30,12 +31,29 @@ fun GameAppHostDeNavegacion(
         composable("inicio") {
             val viewModel = hiltViewModel<PantallaInicialViewModel>()
             val estadoDeLaPantalla by viewModel.estadoDeUi.collectAsStateWithLifecycle()
+            val valorDelFiltro by viewModel.valorDelFiltro.collectAsStateWithLifecycle()
             PantallaDeInicio(
                 modifier = modifier,
                 estadoDeUi = estadoDeLaPantalla,
                 juegoClick = {
                     controladorDeNavegacion.navegarAlDetalle(it)
-                }
+                },
+                filtroDeGenero = {
+                    viewModel.seleccionarFiltro(TasksFilterType.JUEGOS_POR_GENERO, it)
+                },
+                filtroDeEditor = {
+                    viewModel.seleccionarFiltro(
+                        TasksFilterType.JUEGOS_POR_EDITOR,
+                        it
+                    )
+                },
+                resetearFiltro = {
+                    viewModel.seleccionarFiltro(
+                        TasksFilterType.TODOS_LOS_JUEGOS,
+                        null
+                    )
+                },
+                valorDelFiltro = valorDelFiltro
             )
         }
         composable("detalle/?juego={juego}", arguments = listOf(

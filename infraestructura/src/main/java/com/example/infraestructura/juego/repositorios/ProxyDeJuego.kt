@@ -17,7 +17,7 @@ class ProxyDeJuego @Inject constructor(
     private val verificadorDeInternet: VerificadorDeInternet,
 ) : RepositorioDeJuegos {
 
-    override suspend fun obtenerJuegos(): Flow<List<Juego>> {
+    override fun obtenerJuegos(): Flow<List<Juego>> {
         return if (verificadorDeInternet.hayConexionInternet()) {
             combine(
                 repositorioLocalDeJuegos.obtenerJuegos(),

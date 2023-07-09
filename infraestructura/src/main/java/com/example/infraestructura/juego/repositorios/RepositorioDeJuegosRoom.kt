@@ -36,7 +36,7 @@ class RepositorioDeJuegosRoom @Inject constructor(private val daoJuego: DaoJuego
         }
     }
 
-    override suspend fun obtenerJuegos(): Flow<List<Juego>> {
+    override fun obtenerJuegos(): Flow<List<Juego>> {
         return daoJuego.obtenerJuegos()
             .map { juegos -> juegos.map { juego -> TraductorDeJuegos.desdeEntidadHaciaModelo(juego) } }
     }
