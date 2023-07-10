@@ -1,10 +1,14 @@
 package com.example.infraestructura.compartido.inyeccionDeDependencias
 
-import android.app.Application
+
 import android.content.Context
+import com.example.dominio.juego.excepciones.ExcepcionDeParametroVacio
 import com.example.dominio.juego.repositorios.RepositorioDeJuegos
+import com.example.infraestructura.R
+import com.example.dominio.R as RecursosDominio
 import com.example.infraestructura.compartido.VerificadorDeInternet
 import com.example.infraestructura.compartido.clienteHttp.ServicioDeJuego
+import com.example.infraestructura.compartido.clienteHttp.excepciones.ExcepcionDeInternet
 import com.example.infraestructura.juego.persistencia.dao.DaoJuego
 import com.example.infraestructura.juego.repositorios.ProxyDeJuego
 import com.example.infraestructura.juego.repositorios.RepositorioDeJuegosRetrofit
@@ -24,9 +28,15 @@ class ModuloDeDatos {
     fun proveedorDeRepositorios(
         repositorioLocalDeJuegos: RepositorioLocalDeJuegos,
         repositorioRemotoDeJuegos: RepositorioRemotoDeJuegos,
-        verificadorDeInternet: VerificadorDeInternet
+        verificadorDeInternet: VerificadorDeInternet,
+        excepcionDeInternet: ExcepcionDeInternet
     ): RepositorioDeJuegos =
-        ProxyDeJuego(repositorioLocalDeJuegos, repositorioRemotoDeJuegos, verificadorDeInternet)
+        ProxyDeJuego(
+            repositorioLocalDeJuegos,
+            repositorioRemotoDeJuegos,
+            verificadorDeInternet,
+            excepcionDeInternet
+        )
 
     @Provides
     fun proveedorDeFuenteLocal(daoJuego: DaoJuego): RepositorioLocalDeJuegos =
@@ -41,4 +51,9 @@ class ModuloDeDatos {
     @Provides
     fun proveedorDeVerificadorDeInternet(@ApplicationContext appContext: Context): VerificadorDeInternet =
         VerificadorDeInternet(appContext)
+
+    @Provides
+    fun proveedorDeExpcecionDeInternet(@ApplicationContext appContext: Context): ExcepcionDeInternet =
+        ExcepcionDeInternet(appContext.getString(R.string.mensaje_excepcion_internet))
+
 }

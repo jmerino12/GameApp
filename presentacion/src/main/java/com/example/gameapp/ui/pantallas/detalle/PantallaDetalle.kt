@@ -57,15 +57,14 @@ fun PantallaDetalle(
     eliminarDeFavorita: () -> Unit,
     mensajeMostrado: () -> Unit,
     error: Boolean,
-    mensajeDeError: Int?,
+    mensajeDeError: String?,
     estadoSnackBar: SnackbarHostState = SnackbarHostState(),
 
     ) {
     Scaffold(snackbarHost = { SnackbarHost(estadoSnackBar) }) { paddingValues ->
         mensajeDeError?.let { mensaje ->
-            val snackbarText = stringResource(mensaje)
-            LaunchedEffect(estadoSnackBar, mensaje, snackbarText) {
-                estadoSnackBar.showSnackbar(snackbarText)
+            LaunchedEffect(estadoSnackBar, mensaje) {
+                estadoSnackBar.showSnackbar(mensaje)
                 mensajeMostrado()
             }
         }
@@ -89,14 +88,14 @@ fun ContenidoDePantallaDetalle(
     peliculaFavorita: () -> Unit,
     eliminarDeFavorita: () -> Unit,
     error: Boolean,
-    mensajeDeError: Int?
+    mensajeDeError: String?
 
 ) {
     CargandoContenido(
         cargando = cargando,
     ) {
         if (error && mensajeDeError != null) {
-            Text(text = stringResource(id = mensajeDeError))
+            Text(text = mensajeDeError)
         } else if(juego != null){
             DetalleDelJuego(juego, peliculaFavorita, eliminarDeFavorita)
         }
