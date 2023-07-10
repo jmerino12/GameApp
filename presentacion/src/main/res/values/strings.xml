@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">GameApp</string>
+    <string name="generos">Generos</string>
+    <string name="editores">Editores</string>
+    <string name="juego_desde_api">Juego desde Api</string>
+    <string name="juegos_favoritos">Juegos Favoritos</string>
+    <string name="no_tenemos_nada_para_mostrar">No tenemos nada para mostrar</string>
+    <string name="requisitos_del_computador">Requisitos del computador</string>
+    <string name="capturas">Capturas</string>
+    <string name="sistema_operativo">"Sistema Operativo: "</string>
+    <string name="procesador">"Procesador: "</string>
+    <string name="memoria">"Memoria: "</string>
+    <string name="espacio">"Espacio: "</string>
+    <string name="grafica">"Grafica: "</string>
+    <string name="vuelve_a_intentarlo">Ocurrio un error. Vuelva a internarlo más tarde</string>
+    <string name="juego_marcado_como_favorito">Se ha marcado este juego como favorito.</string>
+    <string name="juego_eliminado_de_favorito">Se ha eliminado este juego de favoritos.</string>
 </resources>
