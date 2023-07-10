@@ -5,10 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dominio.juego.modelo.JuegoDetalle
+import com.example.gameapp.R
 import com.example.infraestructura.juego.anticorrupcion.TraductorDeJuegos
 import com.example.infraestructura.juego.repositorios.ProxyDeJuego
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioLocalDeJuegos
-import com.example.infraestructura.juego.repositorios.contratos.RepositorioRemotoDeJuegos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,6 @@ class PantallaDetalleViewModel @Inject constructor(
     private val exito = MutableStateFlow(PantallaDetalleEstadosDeUi().exito)
     private val error = MutableStateFlow(PantallaDetalleEstadosDeUi().error)
     private val mensajeDeError = MutableStateFlow(PantallaDetalleEstadosDeUi().mensajeDeError)
-
     private val _estadoDeUi = MutableStateFlow(PantallaDetalleEstadosDeUi())
     val estadoDeUi: StateFlow<PantallaDetalleEstadosDeUi> get() = _estadoDeUi
 
@@ -69,9 +68,17 @@ class PantallaDetalleViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("obtenerJuegoError", e.localizedMessage)
             error.value = true
-            mensajeDeError.value = e.localizedMessage
+            mensajeDeError.value = R.string.vuelve_a_intentarlo
             cargando.value = false
         }
+    }
+
+    fun mensajeMostrado() {
+        mensajeDeError.value = null
+    }
+
+    private fun mostrarMensaje(message: Int) {
+        mensajeDeError.value = message
     }
 
     fun marcarComoFavorito() {
@@ -83,6 +90,7 @@ class PantallaDetalleViewModel @Inject constructor(
                     )
                 )
                 exito.value = exito.value!!.copy(favorito = true)
+                mostrarMensaje(R.string.juego_marcado_como_favorito)
             } catch (e: Exception) {
                 Log.e("obtenerJuegoError", e.localizedMessage)
             }
@@ -98,6 +106,7 @@ class PantallaDetalleViewModel @Inject constructor(
                     )
                 )
                 exito.value = exito.value!!.copy(favorito = false)
+                mostrarMensaje(R.string.juego_eliminado_de_favorito)
             } catch (e: Exception) {
                 Log.e("obtenerJuegoError", e.localizedMessage)
             }
@@ -110,5 +119,5 @@ data class PantallaDetalleEstadosDeUi(
     var cargando: Boolean = true,
     var exito: JuegoDetalle? = null,
     var error: Boolean = false,
-    var mensajeDeError: String = "",
+    var mensajeDeError: Int? = null,
 )

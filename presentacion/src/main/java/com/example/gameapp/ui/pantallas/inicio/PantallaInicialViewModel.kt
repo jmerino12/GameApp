@@ -14,11 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 
 @HiltViewModel
 class PantallaInicialViewModel @Inject constructor(
@@ -34,7 +36,7 @@ class PantallaInicialViewModel @Inject constructor(
     private val editores = MutableStateFlow(PantallaDeInicioEstadosDeUi().editores)
     private val error = MutableStateFlow(PantallaDeInicioEstadosDeUi().error)
     private val filtro = savedStateHandle.getStateFlow(
-        "TASKS_FILTER_SAVED_STATE_KEY",
+        "JUEGOS_FILTRO",
         TasksFilterType.TODOS_LOS_JUEGOS
     )
 
@@ -67,29 +69,64 @@ class PantallaInicialViewModel @Inject constructor(
                 )
             }.catch { throwable ->
                 throw throwable
-            }.collect {
-                _estadoDeUi.value = it
+            }.collectLatest { nuevoValor ->
+                _estadoDeUi.value = nuevoValor
             }
         }
         viewModelScope.launch { obtenerJuegos() }
     }
 
+
+    fun seleccionarFiltro(requestType: TasksFilterType, valorDeMiFiltro: String?) {
+        val estadoActual = _estadoDeUi.value
+        if (estadoActual.filtro != requestType || valorDeMiFiltro != valorDelFiltro.value) {
+            val juegosFiltrados =
+                filtrarJuegos(estadoActual.juegosOriginales, requestType, valorDeMiFiltro)
+            _estadoDeUi.value = estadoActual.copy(
+                juegoDeApi = juegosFiltrados.toMutableList(),
+                filtro = requestType
+            )
+        }
+    }
+
+    fun ordenarPorFechaDeLanzamiento() {
+        val estadoActual = _estadoDeUi.value
+        val juegorOrdenados = ordenarPorFechaDeLanzamiento(estadoActual.juegoDeApi)
+        _estadoDeUi.value = estadoActual.copy(
+            juegoDeApi = juegorOrdenados.toMutableList(),
+        )
+
+    }
+
+
     private suspend fun obtenerJuegos() = withContext(Dispatchers.IO) {
         cargando.value = true
         try {
             repositorioDeJuegos.obtenerJuegos().collect { juegos ->
-                cargando.value = false
+                val nuevosJuegosFavoritos = mutableListOf<Juego>()
+                val nuevosJuegosDeApi = mutableListOf<Juego>()
                 juegosOriginales.value = juegos.distinctBy { it.identificador }
-                juegos.map {
-                    if (it.favorito) juegosFavoritos.value.add(it) else {
-                        juegosDeApi.value.add(it)
+
+                cargando.value = false
+
+                juegos.forEach {
+                    if (it.favorito) {
+                        nuevosJuegosFavoritos.add(it)
+                    } else {
+                        nuevosJuegosDeApi.add(it)
                     }
                 }
-
                 aplicarFiltroInicial()
+
+                juegosFavoritos.value.clear()
+                juegosFavoritos.value.addAll(nuevosJuegosFavoritos.distinctBy { it.identificador })
+
+                juegosDeApi.value.clear()
+                juegosDeApi.value.addAll(nuevosJuegosDeApi.distinctBy { it.identificador })
+
                 generos.value = obtenerListaDeGeneros(juegos).toMutableList()
                 editores.value = obtenerListaDeEditores(juegos).toMutableList()
-                juegosFavoritos.value = juegosFavoritos.value.distinctBy { it.identificador }.toMutableList()
+
             }
         } catch (e: Exception) {
             Log.e("obtenerJuegoError", e.localizedMessage)
@@ -123,18 +160,11 @@ class PantallaInicialViewModel @Inject constructor(
         _estadoDeUi.value = estadoActual.copy(juegoDeApi = juegosFiltrados.toMutableList())
     }
 
-    fun seleccionarFiltro(requestType: TasksFilterType, valorDeMiFiltro: String?) {
-        val estadoActual = _estadoDeUi.value
-        if (estadoActual.filtro != requestType || valorDeMiFiltro != valorDelFiltro.value) {
-            val juegosFiltrados =
-                filtrarJuegos(estadoActual.juegosOriginales, requestType, valorDeMiFiltro)
-            _estadoDeUi.value = estadoActual.copy(
-                juegoDeApi = juegosFiltrados.toMutableList(),
-                filtro = requestType
-            )
-        }
+    private fun ordenarPorFechaDeLanzamiento(
+        juegos: List<Juego>,
+    ): List<Juego> {
+        return juegos.sortedBy { it.fechaDeLanzamiento }
     }
-
 
     private fun filtrarJuegos(
         juegos: List<Juego>,

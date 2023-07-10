@@ -24,15 +24,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.dominio.juego.modelo.JuegoDetalle
+import com.example.gameapp.R
 import com.example.gameapp.ui.compatido.CargandoContenido
 import com.example.gameapp.ui.compatido.ExpandableText
 
@@ -51,10 +55,20 @@ fun PantallaDetalle(
     estadoDeUi: PantallaDetalleEstadosDeUi,
     peliculaFavorita: () -> Unit,
     eliminarDeFavorita: () -> Unit,
+    mensajeMostrado: () -> Unit,
     error: Boolean,
-    mensajeDeError: String
-) {
-    Scaffold { paddingValues ->
+    mensajeDeError: Int?,
+    estadoSnackBar: SnackbarHostState = SnackbarHostState(),
+
+    ) {
+    Scaffold(snackbarHost = { SnackbarHost(estadoSnackBar) }) { paddingValues ->
+        mensajeDeError?.let { mensaje ->
+            val snackbarText = stringResource(mensaje)
+            LaunchedEffect(estadoSnackBar, mensaje, snackbarText) {
+                estadoSnackBar.showSnackbar(snackbarText)
+                mensajeMostrado()
+            }
+        }
         ContenidoDePantallaDetalle(
             modifier = modifier.padding(paddingValues),
             estadoDeUi.cargando,
@@ -75,15 +89,15 @@ fun ContenidoDePantallaDetalle(
     peliculaFavorita: () -> Unit,
     eliminarDeFavorita: () -> Unit,
     error: Boolean,
-    mensajeDeError: String
+    mensajeDeError: Int?
 
 ) {
     CargandoContenido(
         cargando = cargando,
     ) {
-        if (error && mensajeDeError.isNotEmpty()) {
-            Text(text = mensajeDeError)
-        } else {
+        if (error && mensajeDeError != null) {
+            Text(text = stringResource(id = mensajeDeError))
+        } else if(juego != null){
             DetalleDelJuego(juego, peliculaFavorita, eliminarDeFavorita)
         }
 
@@ -132,13 +146,13 @@ private fun DetalleDelJuego(
             }
             ClickableText(text = urlDelJuego, onClick = {})
             SeccionDelJuego(
-                tituloDeLaSeccion = "Requisitos del computador"
+                tituloDeLaSeccion = stringResource(R.string.requisitos_del_computador)
             ) {
                 RequisitosDelSistema(juego = juego)
             }
 
             SeccionDelJuego(
-                tituloDeLaSeccion = "Capturas"
+                tituloDeLaSeccion = stringResource(R.string.capturas)
             ) {
                 CarruselDeFotos(juego = juego)
             }
@@ -174,7 +188,7 @@ private fun EncabezadoDeJuego(
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     tint = Color.White,
-                    contentDescription = "Back"
+                    contentDescription = null
                 )
             }
 
@@ -182,7 +196,7 @@ private fun EncabezadoDeJuego(
                 Icon(
                     imageVector = if (juego!!.favorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     tint = Color.White,
-                    contentDescription = "Back"
+                    contentDescription = null
                 )
             }
         }
@@ -217,25 +231,25 @@ private fun RequisitosDelSistema(
 ) {
 
     RequisitoDelSistemItem(
-        "Sistema Operativo: ",
+        stringResource(R.string.sistema_operativo),
         juego?.requisitosMinimosDelSistema?.sistemaOperativo
     )
     RequisitoDelSistemItem(
-        "Procesador: ",
+        stringResource(R.string.procesador),
         juego?.requisitosMinimosDelSistema?.procesador
     )
     RequisitoDelSistemItem(
-        "Memoria: ",
+        stringResource(R.string.memoria),
         juego?.requisitosMinimosDelSistema?.memoria
     )
 
     RequisitoDelSistemItem(
-        "Espacio: ",
+        stringResource(R.string.espacio),
         juego?.requisitosMinimosDelSistema?.almacenamiento
     )
 
     RequisitoDelSistemItem(
-        "Grafica: ",
+        stringResource(R.string.grafica),
         juego?.requisitosMinimosDelSistema?.grafica
     )
 

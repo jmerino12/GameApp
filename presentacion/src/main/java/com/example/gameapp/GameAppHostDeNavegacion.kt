@@ -53,7 +53,8 @@ fun GameAppHostDeNavegacion(
                         null
                     )
                 },
-                valorDelFiltro = valorDelFiltro
+                valorDelFiltro = valorDelFiltro,
+                ordenar = { viewModel.ordenarPorFechaDeLanzamiento() }
             )
         }
         composable("detalle/?juego={juego}", arguments = listOf(
@@ -66,7 +67,8 @@ fun GameAppHostDeNavegacion(
                 eliminarDeFavorita = { viewModel.eliminarDeFavorito() },
                 peliculaFavorita = { viewModel.marcarComoFavorito() },
                 mensajeDeError = estadoDeLaPantalla.mensajeDeError,
-                error = estadoDeLaPantalla.error
+                error = estadoDeLaPantalla.error,
+                mensajeMostrado = { viewModel.mensajeMostrado() }
             )
         }
     }
