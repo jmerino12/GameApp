@@ -1,11 +1,14 @@
 package com.example.gameapp.ui.pantallas.detalle
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dominio.juego.modelo.JuegoDetalle
 import com.example.gameapp.R
+import com.example.infraestructura.compartido.clienteHttp.excepciones.ExcepcionDeInternet
 import com.example.infraestructura.juego.anticorrupcion.TraductorDeJuegos
 import com.example.infraestructura.juego.repositorios.ProxyDeJuego
 import com.example.infraestructura.juego.repositorios.contratos.RepositorioLocalDeJuegos
@@ -24,9 +27,10 @@ import javax.inject.Inject
 class PantallaDetalleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val proxyDeJuego: ProxyDeJuego,
-    private val repositorioLocalDeJuegos: RepositorioLocalDeJuegos
+    private val repositorioLocalDeJuegos: RepositorioLocalDeJuegos,
+    private val application: Application
 ) :
-    ViewModel() {
+    AndroidViewModel(application) {
 
     private val cargando = MutableStateFlow(PantallaDetalleEstadosDeUi().cargando)
     private val exito = MutableStateFlow(PantallaDetalleEstadosDeUi().exito)
@@ -66,9 +70,10 @@ class PantallaDetalleViewModel @Inject constructor(
                 exito.value = juego?.copy(favorito = favorito)
             }
         } catch (e: Exception) {
-            Log.e("obtenerJuegoError", e.localizedMessage)
             error.value = true
-            mensajeDeError.value = R.string.vuelve_a_intentarlo
+            if(e is ExcepcionDeInternet)  mensajeDeError.value = e.message else {
+                mensajeDeError.value = application.getString(R.string.vuelve_a_intentarlo)
+            }
             cargando.value = false
         }
     }
@@ -77,7 +82,7 @@ class PantallaDetalleViewModel @Inject constructor(
         mensajeDeError.value = null
     }
 
-    private fun mostrarMensaje(message: Int) {
+    private fun mostrarMensaje(message: String) {
         mensajeDeError.value = message
     }
 
@@ -90,7 +95,7 @@ class PantallaDetalleViewModel @Inject constructor(
                     )
                 )
                 exito.value = exito.value!!.copy(favorito = true)
-                mostrarMensaje(R.string.juego_marcado_como_favorito)
+                mostrarMensaje(application.getString(R.string.juego_marcado_como_favorito))
             } catch (e: Exception) {
                 Log.e("obtenerJuegoError", e.localizedMessage)
             }
@@ -106,7 +111,7 @@ class PantallaDetalleViewModel @Inject constructor(
                     )
                 )
                 exito.value = exito.value!!.copy(favorito = false)
-                mostrarMensaje(R.string.juego_eliminado_de_favorito)
+                mostrarMensaje(application.getString(R.string.juego_eliminado_de_favorito))
             } catch (e: Exception) {
                 Log.e("obtenerJuegoError", e.localizedMessage)
             }
@@ -119,5 +124,5 @@ data class PantallaDetalleEstadosDeUi(
     var cargando: Boolean = true,
     var exito: JuegoDetalle? = null,
     var error: Boolean = false,
-    var mensajeDeError: Int? = null,
+    var mensajeDeError: String? = null,
 )
