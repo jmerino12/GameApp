@@ -30,6 +30,9 @@ class ProxyDeJuegoTest {
     @Mock
     private lateinit var verificadorDeInternet: VerificadorDeInternet
 
+    @Mock
+    private lateinit var excepcionDeInternet: ExcepcionDeInternet
+
     @InjectMocks
     private lateinit var proxyDeJuego: ProxyDeJuego
 

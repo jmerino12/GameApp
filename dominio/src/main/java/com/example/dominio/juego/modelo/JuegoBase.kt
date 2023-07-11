@@ -13,15 +13,15 @@ abstract class JuegoBase(
     val miniatura: String,
     val plataforma: String,
     val editor: String,
-    fechaDeLanzamiento: String,
+    var fechaDeLanzamiento: String,
     var favorito: Boolean,
 ) {
-
-    val fechaDeLanzamiento: String = cambiarFormatoFecha(fechaDeLanzamiento)
-
     init {
         validarCampos()
+        fechaDeLanzamiento = cambiarFormatoFecha(fechaDeLanzamiento)
     }
+
+
 
     private fun validarCampos() {
         if (titulo.isEmpty()) throw ExcepcionDeParametroVacio(parametro = "titulo")
