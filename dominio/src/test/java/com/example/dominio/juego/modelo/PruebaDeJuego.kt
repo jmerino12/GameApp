@@ -17,7 +17,7 @@ class PruebaDeJuego {
         val miniaturaDelJuego = "/thumbnail.jpg"
         val plataformaDelJuego = "XBOX"
         val editorDelJuego = "Activision"
-        val fechaDeLanzamientoDelJuego = "2020-03-10"
+        val fechaDeLanzamientoDelJuego = "2022-10-04"
         val esJuegoFavorito = false
 
         // ACT
