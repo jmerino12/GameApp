@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
+    id 'jacoco'
 }
 
 android {
@@ -35,6 +36,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    tasks.withType(Test).configureEach {
+        jacoco.includeNoLocationClasses = true
+        jacoco.excludes = ['jdk.internal.*']
+        finalizedBy(jacocoTestReport)
+    }
+
     buildFeatures {
         compose true
     }
@@ -46,6 +54,45 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['connectedAndroidTest','testDebugUnitTest',':dominio:testDebugUnitTest',':infraestructura:testDebugUnitTest']) {
+
+    // Define modules from project
+    def domain = project(':dominio')
+    def infrastructure = project(':infraestructura')
+
+    // Enable xml and html reports
+    reports {
+        xml.required = true
+        html.required = true
+    }
+
+    // Filters
+    def fileFilterInfrastructure = ['**/inyeccionDeDependencias/*','**/juego/clienteHttp/dto/*','**/juego/persistencia/entidad/*','**/juego/anticorrupcion/*']
+    def fileFilterApp = ['**/ui/tema/*']
+    def fileFilterDomain = ['**/dominio/excepciones/*']
+
+    // Source directories and define general source
+    def sourceDirectoriesFromApp = fileTree(dir: "${project.projectDir}/src/main/java", excludes: fileFilterApp)
+    def sourceDirectoriesFromInfrastructure = fileTree(dir: "${infrastructure.projectDir}/src/main/java", excludes: fileFilterInfrastructure)
+    def sourceDirectoriesFromDomain = fileTree(dir: "${domain.projectDir}/src/main/java", excludes: fileFilterDomain)
+    def sourceDirectoriesFromAllModules = layout.files(sourceDirectoriesFromApp,sourceDirectoriesFromDomain,sourceDirectoriesFromInfrastructure)
+    sourceDirectories.setFrom(files([sourceDirectoriesFromAllModules]))
+
+    // Class directories and define general directories
+    def classDirectoriesFromApp = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilterApp)
+    def classDirectoriesFromInfrastructure = fileTree(dir: "${infrastructure.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilterInfrastructure)
+    def classDirectoriesFromDomain = fileTree(dir: "${domain.buildDir}/tmp/kotlin-classes/debug", excludes: fileFilterDomain)
+    def classDirectoriesFromAllModules = layout.files(classDirectoriesFromApp,classDirectoriesFromDomain,classDirectoriesFromInfrastructure)
+    classDirectories.setFrom(files([classDirectoriesFromAllModules]))
+
+    // Execution files from test task
+    def executionFileFromUnitTestInApp = fileTree(dir: "$buildDir", includes: ["outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec","outputs/code_coverage/debugAndroidTest/connected/**coverage.ec"])
+    def executionFileFromUnitTestInDomain = fileTree(dir: "$domain.buildDir", includes: ["jacoco/testDebugUnitTest.exec"])
+    def executionFileFromUnitTestInInfrastructure = fileTree(dir: "$infrastructure.buildDir", includes: ["jacoco/testDebugUnitTest.exec"])
+    def executionFiles = layout.files(executionFileFromUnitTestInApp,executionFileFromUnitTestInDomain,executionFileFromUnitTestInInfrastructure)
+    executionData.setFrom(executionFiles.asFileTree)
 }
 
 kapt {
